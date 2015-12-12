@@ -10,6 +10,8 @@ namespace Object_Robo_Tracker
 {
     public class GlobalVars
     {
+        public static bool switchedCams = false;
+
         public static int H_MIN = 0;
         public static int H_MAX = 256;
         public static int S_MIN = 0;

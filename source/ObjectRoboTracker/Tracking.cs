@@ -55,33 +55,68 @@ namespace Object_Robo_Tracker
                         switch (nr)
                         {
                             case 0:
-                                GlobalVars.theObject1[0] = (int)centerX;
-                                GlobalVars.theObject1[1] = (int)centerY;
+                                if (GlobalVars.switchedCams)
+                                {
+                                    GlobalVars.theObject2[0] = (int)centerX;
+                                    GlobalVars.theObject2[1] = (int)centerY;
+                                }
+                                else
+                                {
+                                    GlobalVars.theObject1[0] = (int)centerX;
+                                    GlobalVars.theObject1[1] = (int)centerY;
+
+                                }
                                 break;
 
                             case 1:
-                                GlobalVars.theObject2[0] = (int)centerX;
-                                GlobalVars.theObject2[1] = (int)centerY;
+                                if (GlobalVars.switchedCams)
+                                {
+                                    GlobalVars.theObject1[0] = (int)centerX;
+                                    GlobalVars.theObject1[1] = (int)centerY;
+                                }
+                                else
+                                {
+                                    GlobalVars.theObject2[0] = (int)centerX;
+                                    GlobalVars.theObject2[1] = (int)centerY;
+                                }
                                 break;
                         }
                     }
                 }
             }
             //make some temp x and y variables so we dont have to type out so much
-             int x=0, y=0;
+            int x = 0, y = 0;
 
             switch (nr)
             {
                 case 0:
-                    x = GlobalVars.theObject1[0];
-                    y = GlobalVars.theObject1[1];
+                    if (GlobalVars.switchedCams)
+                    {
+                        x = GlobalVars.theObject2[0];
+                        y = GlobalVars.theObject2[1];
+                    }
+                    else
+                    {
+                        x = GlobalVars.theObject1[0];
+                        y = GlobalVars.theObject1[1];
+                    }
                     break;
 
                 case 1:
-                    x = GlobalVars.theObject2[0];
-                    y = GlobalVars.theObject2[1];
+                    if (GlobalVars.switchedCams)
+                    {
+                        x = GlobalVars.theObject1[0];
+                        y = GlobalVars.theObject1[1];
+                    }
+                    else
+                    {
+                        x = GlobalVars.theObject2[0];
+                        y = GlobalVars.theObject2[1];
+                    }
+
                     break;
             }
+
             //draw some circle around the object
             CvPoint drawPoint = new CvPoint(x, y);
             Cv2.Circle(cameraFeed, drawPoint, 20, GlobalVars.drawColor, 2);

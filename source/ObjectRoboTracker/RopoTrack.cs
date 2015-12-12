@@ -69,12 +69,9 @@ namespace Object_Robo_Tracker
 
 			while (GlobalVars.abort == false)
 			{
-				for (int i = 0; i <= 100000; i++)
-				{
-					//do nothing
-				}
+                Thread.Sleep(100);
 
-				if (this.cam1LabX.InvokeRequired)
+                if (this.cam1LabX.InvokeRequired)
 				{
 					this.cam1LabX.BeginInvoke((MethodInvoker)delegate () { this.cam1LabX.Text = GlobalVars.theObject1[0].ToString(); ; });
 				}
@@ -365,6 +362,10 @@ namespace Object_Robo_Tracker
 						}
 					}
 				}
+                if(initCam1 != -1 && initCam2 != -1 && initCam1 > initCam2)
+                {
+                    GlobalVars.switchedCams = true;
+                };
 				AppendTextBox("CAM1 = " + initCam1 + "\nCAM2 = " + initCam2 + "\n");
 			}
 		}
