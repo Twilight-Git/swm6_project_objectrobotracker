@@ -70,6 +70,7 @@
             this.returnNestLab1 = new System.Windows.Forms.Label();
             this.returnNestBtn1 = new System.Windows.Forms.Button();
             this.trackBtn1 = new System.Windows.Forms.Button();
+            this.resetRoboErrBtn = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
@@ -143,7 +144,7 @@
             // 
             this.trackBar3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.trackBar3.Location = new System.Drawing.Point(585, 141);
-            this.trackBar3.Maximum = 500;
+            this.trackBar3.Maximum = 1000;
             this.trackBar3.Minimum = 1;
             this.trackBar3.Name = "trackBar3";
             this.trackBar3.Size = new System.Drawing.Size(187, 45);
@@ -465,7 +466,7 @@
             this.comPortDropDownList.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comPortDropDownList.FormattingEnabled = true;
             this.comPortDropDownList.Items.AddRange(new object[] {
-            "default"});
+            "no one"});
             this.comPortDropDownList.Location = new System.Drawing.Point(93, 341);
             this.comPortDropDownList.Name = "comPortDropDownList";
             this.comPortDropDownList.Size = new System.Drawing.Size(75, 21);
@@ -515,6 +516,7 @@
             this.returnHomeBtn.Text = "Home";
             this.returnHomeBtn.UseVisualStyleBackColor = true;
             this.returnHomeBtn.Visible = false;
+            this.returnHomeBtn.Click += new System.EventHandler(this.returnHomeBtn_Click);
             // 
             // returnNestLab1
             // 
@@ -537,6 +539,7 @@
             this.returnNestBtn1.Text = "Nest";
             this.returnNestBtn1.UseVisualStyleBackColor = true;
             this.returnNestBtn1.Visible = false;
+            this.returnNestBtn1.Click += new System.EventHandler(this.returnNestBtn1_Click);
             // 
             // trackBtn1
             // 
@@ -551,11 +554,23 @@
             this.trackBtn1.Visible = false;
             this.trackBtn1.Click += new System.EventHandler(this.trackBtn1_Click);
             // 
+            // resetRoboErrBtn
+            // 
+            this.resetRoboErrBtn.Location = new System.Drawing.Point(93, 312);
+            this.resetRoboErrBtn.Name = "resetRoboErrBtn";
+            this.resetRoboErrBtn.Size = new System.Drawing.Size(75, 23);
+            this.resetRoboErrBtn.TabIndex = 51;
+            this.resetRoboErrBtn.Text = "Reset Error";
+            this.resetRoboErrBtn.UseVisualStyleBackColor = true;
+            this.resetRoboErrBtn.Visible = false;
+            this.resetRoboErrBtn.Click += new System.EventHandler(this.resetRoboErrBtn_Click);
+            // 
             // RoboTrack
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 461);
+            this.Controls.Add(this.resetRoboErrBtn);
             this.Controls.Add(this.trackBtn1);
             this.Controls.Add(this.returnNestBtn1);
             this.Controls.Add(this.returnNestLab1);
@@ -660,6 +675,7 @@
         private System.Windows.Forms.Label returnNestLab1;
         private System.Windows.Forms.Button returnNestBtn1;
         private System.Windows.Forms.Button trackBtn1;
+        private System.Windows.Forms.Button resetRoboErrBtn;
     }
 }
 

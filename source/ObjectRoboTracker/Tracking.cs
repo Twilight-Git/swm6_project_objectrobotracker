@@ -10,13 +10,13 @@ namespace Object_Robo_Tracker
 {
     class TrackFilteredObject
     {
-        public void searchForMovement(Mat thresholdImage, Mat cameraFeed, Mat boundImage, int nr, theObject myObject)
+        public void searchForMovement(Mat thresholdImage, Mat cameraFeed, Mat boundImage, int nr, TheObject myObject)
         {
             bool objectDetected = false;
             Mat temp = new Mat();
             thresholdImage.CopyTo(temp);
             cameraFeed.CopyTo(boundImage);
-			
+
 
             MatOfPoint[] contours = Cv2.FindContoursAsMat(temp, ContourRetrieval.External, ContourChain.ApproxNone);
 
@@ -41,7 +41,7 @@ namespace Object_Robo_Tracker
                             // get point
                             Point pts = contour.At<Point>(ii);
 
-                            Cv2.Circle(boundImage, pts, 1, GlobalVars.drawColor);
+                            Cv2.Circle(boundImage, pts, 1, GlobalVars.greenCvDrawColor);
 
                             // set X Y
                             centerX += pts.X;
@@ -52,81 +52,27 @@ namespace Object_Robo_Tracker
                         centerX /= contour.Count;
                         centerY /= contour.Count;
 
-						// add center
-						myObject.setTheObject((int)centerX, (int)centerY);
-
-                        //switch (nr)
-                        //{
-                        //    case 0:
-                        //        if (GlobalVars.switchedCams)
-                        //        {
-                        //            GlobalVars.theObject2[0] = (int)centerX;
-                        //            GlobalVars.theObject2[1] = (int)centerY;
-                        //        }
-                        //        else
-                        //        {
-                        //            GlobalVars.theObject1[0] = (int)centerX;
-                        //            GlobalVars.theObject1[1] = (int)centerY;
-
-                        //        }
-                        //        break;
-
-                        //    case 1:
-                        //        if (GlobalVars.switchedCams)
-                        //        {
-                        //            GlobalVars.theObject1[0] = (int)centerX;
-                        //            GlobalVars.theObject1[1] = (int)centerY;
-                        //        }
-                        //        else
-                        //        {
-                        //            GlobalVars.theObject2[0] = (int)centerX;
-                        //            GlobalVars.theObject2[1] = (int)centerY;
-                        //        }
-                        //        break;
-                        //}
+                        // add center
+                        myObject.setTheObject((int)centerX, (int)centerY);
                     }
                 }
             }
-            //make some temp x and y variables so we dont have to type out so much
-            int x = 0, y = 0;
-
-			x = myObject.getTheObjectX();
-			y = myObject.getTheObjectY();
-			
-			//switch (nr)
-			//{
-			//    case 0:
-			//        if (GlobalVars.switchedCams)
-			//        {
-			//            x = GlobalVars.theObject2[0];
-			//            y = GlobalVars.theObject2[1];
-			//        }
-			//        else
-			//        {
-			//            x = GlobalVars.theObject1[0];
-			//            y = GlobalVars.theObject1[1];
-			//        }
-			//        break;
-
-			//    case 1:
-			//        if (GlobalVars.switchedCams)
-			//        {
-			//            x = GlobalVars.theObject1[0];
-			//            y = GlobalVars.theObject1[1];
-			//        }
-			//        else
-			//        {
-			//            x = GlobalVars.theObject2[0];
-			//            y = GlobalVars.theObject2[1];
-			//        }
-
-			//        break;
-			//}
-
-			//draw some circle around the object
-			CvPoint drawPoint = new CvPoint(x, y);
-            Cv2.Circle(cameraFeed, drawPoint, 20, GlobalVars.drawColor, 2);
         }
+
+
+        public void drawMyObejct(Mat cameraFeed, TheObject myObject)
+        {
+            int x = 0, y = 0;
+            x = myObject.getTheObjectX();
+            y = myObject.getTheObjectY();
+
+            
+
+            //draw some circle around the object
+            CvPoint drawPoint = new CvPoint(x, y);
+            Cv2.Circle(cameraFeed, drawPoint, 20, GlobalVars.greenCvDrawColor, 2);
+        }
+
 
     }
 }

@@ -14,13 +14,13 @@ namespace Object_Robo_Tracker
     class CameraCapure
     {
 
-        public void Capture(int cam, PictureBox box1, PictureBox box2, PictureBox box3)
+        public void capture(int cam, PictureBox box1, PictureBox box2, PictureBox box3)
         {
             TrackFilteredObject TrackMyMove = new TrackFilteredObject();
-			theObject myObject = new theObject();
+			TheObject myObject = new TheObject(cam);
+            Console.WriteLine(cam);
 
-
-			Mat cameraFrame1 = new Mat();
+            Mat cameraFrame1 = new Mat();
             Mat grayImage1 = new Mat(); ;
             Mat cameraFrame2 = new Mat();
             Mat grayImage2 = new Mat(); ;
@@ -57,6 +57,7 @@ namespace Object_Robo_Tracker
                     Cv2.Threshold(thresholdImage, thresholdImage, GlobalVars.SENSITIVITY_VALUE, 255, ThresholdType.Binary);
 
                     TrackMyMove.searchForMovement(thresholdImage, cameraFrame1, boundImage, cam, myObject);
+                    TrackMyMove.drawMyObejct(cameraFrame1, myObject);
 
 
                     Cv2.Resize(cameraFrame1, toBm1, sz);
