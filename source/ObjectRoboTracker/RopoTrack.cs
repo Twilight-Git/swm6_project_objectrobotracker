@@ -63,7 +63,7 @@ namespace Object_Robo_Tracker
 		}
 
 		#region labels and print stuff
-		public void UpdateAllTheLabels()
+		public void UpdateAllTheLabels(cam1LabX, )
 		{
 
 

@@ -10,12 +10,13 @@ namespace Object_Robo_Tracker
 {
     class TrackFilteredObject
     {
-        public void searchForMovement(Mat thresholdImage, Mat cameraFeed, Mat boundImage, int nr)
+        public void searchForMovement(Mat thresholdImage, Mat cameraFeed, Mat boundImage, int nr, theObject myObject)
         {
             bool objectDetected = false;
             Mat temp = new Mat();
             thresholdImage.CopyTo(temp);
             cameraFeed.CopyTo(boundImage);
+			
 
             MatOfPoint[] contours = Cv2.FindContoursAsMat(temp, ContourRetrieval.External, ContourChain.ApproxNone);
 
@@ -51,74 +52,79 @@ namespace Object_Robo_Tracker
                         centerX /= contour.Count;
                         centerY /= contour.Count;
 
-                        // add center
-                        switch (nr)
-                        {
-                            case 0:
-                                if (GlobalVars.switchedCams)
-                                {
-                                    GlobalVars.theObject2[0] = (int)centerX;
-                                    GlobalVars.theObject2[1] = (int)centerY;
-                                }
-                                else
-                                {
-                                    GlobalVars.theObject1[0] = (int)centerX;
-                                    GlobalVars.theObject1[1] = (int)centerY;
+						// add center
+						myObject.setTheObject((int)centerX, (int)centerY);
 
-                                }
-                                break;
+                        //switch (nr)
+                        //{
+                        //    case 0:
+                        //        if (GlobalVars.switchedCams)
+                        //        {
+                        //            GlobalVars.theObject2[0] = (int)centerX;
+                        //            GlobalVars.theObject2[1] = (int)centerY;
+                        //        }
+                        //        else
+                        //        {
+                        //            GlobalVars.theObject1[0] = (int)centerX;
+                        //            GlobalVars.theObject1[1] = (int)centerY;
 
-                            case 1:
-                                if (GlobalVars.switchedCams)
-                                {
-                                    GlobalVars.theObject1[0] = (int)centerX;
-                                    GlobalVars.theObject1[1] = (int)centerY;
-                                }
-                                else
-                                {
-                                    GlobalVars.theObject2[0] = (int)centerX;
-                                    GlobalVars.theObject2[1] = (int)centerY;
-                                }
-                                break;
-                        }
+                        //        }
+                        //        break;
+
+                        //    case 1:
+                        //        if (GlobalVars.switchedCams)
+                        //        {
+                        //            GlobalVars.theObject1[0] = (int)centerX;
+                        //            GlobalVars.theObject1[1] = (int)centerY;
+                        //        }
+                        //        else
+                        //        {
+                        //            GlobalVars.theObject2[0] = (int)centerX;
+                        //            GlobalVars.theObject2[1] = (int)centerY;
+                        //        }
+                        //        break;
+                        //}
                     }
                 }
             }
             //make some temp x and y variables so we dont have to type out so much
             int x = 0, y = 0;
 
-            switch (nr)
-            {
-                case 0:
-                    if (GlobalVars.switchedCams)
-                    {
-                        x = GlobalVars.theObject2[0];
-                        y = GlobalVars.theObject2[1];
-                    }
-                    else
-                    {
-                        x = GlobalVars.theObject1[0];
-                        y = GlobalVars.theObject1[1];
-                    }
-                    break;
+			x = myObject.getTheObjectX();
+			y = myObject.getTheObjectY();
+			
+			//switch (nr)
+			//{
+			//    case 0:
+			//        if (GlobalVars.switchedCams)
+			//        {
+			//            x = GlobalVars.theObject2[0];
+			//            y = GlobalVars.theObject2[1];
+			//        }
+			//        else
+			//        {
+			//            x = GlobalVars.theObject1[0];
+			//            y = GlobalVars.theObject1[1];
+			//        }
+			//        break;
 
-                case 1:
-                    if (GlobalVars.switchedCams)
-                    {
-                        x = GlobalVars.theObject1[0];
-                        y = GlobalVars.theObject1[1];
-                    }
-                    else
-                    {
-                        x = GlobalVars.theObject2[0];
-                        y = GlobalVars.theObject2[1];
-                    }
+			//    case 1:
+			//        if (GlobalVars.switchedCams)
+			//        {
+			//            x = GlobalVars.theObject1[0];
+			//            y = GlobalVars.theObject1[1];
+			//        }
+			//        else
+			//        {
+			//            x = GlobalVars.theObject2[0];
+			//            y = GlobalVars.theObject2[1];
+			//        }
 
-                    break;
-            }
+			//        break;
+			//}
 
-            //draw some circle around the object
-            CvPoint drawPoint = new CvPoint(x, y);
+			//draw some circle around the object
+			CvPoint drawPoint = new CvPoint(x, y);
             Cv2.Circle(cameraFeed, drawPoint, 20, GlobalVars.drawColor, 2);
         }
 

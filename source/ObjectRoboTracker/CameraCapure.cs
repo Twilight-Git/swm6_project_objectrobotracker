@@ -17,8 +17,10 @@ namespace Object_Robo_Tracker
         public void Capture(int cam, PictureBox box1, PictureBox box2, PictureBox box3)
         {
             TrackFilteredObject TrackMyMove = new TrackFilteredObject();
+			theObject myObject = new theObject();
 
-            Mat cameraFrame1 = new Mat();
+
+			Mat cameraFrame1 = new Mat();
             Mat grayImage1 = new Mat(); ;
             Mat cameraFrame2 = new Mat();
             Mat grayImage2 = new Mat(); ;
@@ -28,7 +30,7 @@ namespace Object_Robo_Tracker
             Mat toBm1 = new Mat();
             Mat toBm2 = new Mat();
             Mat toBm3 = new Mat();
-
+			
             VideoCapture stream = VideoCapture.FromCamera(cam);
             OpenCvSharp.CPlusPlus.Size sz = new OpenCvSharp.CPlusPlus.Size(160, 120);
 
@@ -54,7 +56,7 @@ namespace Object_Robo_Tracker
                     //threshold again to obtain binary image from blur output
                     Cv2.Threshold(thresholdImage, thresholdImage, GlobalVars.SENSITIVITY_VALUE, 255, ThresholdType.Binary);
 
-                    TrackMyMove.searchForMovement(thresholdImage, cameraFrame1, boundImage, cam);
+                    TrackMyMove.searchForMovement(thresholdImage, cameraFrame1, boundImage, cam, myObject);
 
 
                     Cv2.Resize(cameraFrame1, toBm1, sz);

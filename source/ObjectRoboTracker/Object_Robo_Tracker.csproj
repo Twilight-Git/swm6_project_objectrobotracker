@@ -89,6 +89,7 @@
     <Compile Include="CameraCapure.cs" />
     <Compile Include="GlobalVars.cs" />
     <Compile Include="RobotServer.cs" />
+    <Compile Include="theObject.cs" />
     <Compile Include="Tracking.cs" />
     <Compile Include="RopoTrack.cs">
       <SubType>Form</SubType>
