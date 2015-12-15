@@ -65,13 +65,13 @@ namespace Object_Robo_Tracker
         private void captureCameraRoutine1()
         {
             // Start Capture From Camera
-            captureMe.capture(initCam1, pictureBox1, pictureBox2, pictureBox3);
+            captureMe.capture(initCam1, pictureBox1, pictureBox2, pictureBox3, pictureBox7);
         }
 
         private void captureCameraRoutine2()
         {
             // Start Capture From Camera
-            captureMe.capture(initCam2, pictureBox4, pictureBox5, pictureBox6);
+            captureMe.capture(initCam2, pictureBox4, pictureBox5, pictureBox6, pictureBox8);
         }
 
 

@@ -28,10 +28,11 @@ namespace Object_Robo_Tracker
         public static int V_MIN = 0;
         public static int V_MAX = 256;
 
-        public static int MIN_OBJECT_SIZE = 200;
+        public static int MIN_OBJECT_SIZE = 400;
+        public static int MAX_OBJECT_SIZE = 800;
 
         public static int SENSITIVITY_VALUE = 20;
-        public static int BLUR_SIZE = 20;
+        public static int BLUR_SIZE = 40;
 
         public static Size blurSz = new Size(GlobalVars.BLUR_SIZE, GlobalVars.BLUR_SIZE);
 
@@ -39,7 +40,7 @@ namespace Object_Robo_Tracker
         public static CvScalar MAX_HSV_Scalar = new CvScalar(H_MAX, S_MAX, V_MAX);
 
 
-        public static CvScalar greenCvDrawColor = new CvScalar(0, 255, 0);
+        public static CvScalar greenCvDrawColor = new CvScalar(180, 255, 0);
 
         //public static Rect objectBoundingRectangle = new Rect(0, 0, 0, 0);
 
@@ -68,13 +69,29 @@ namespace Object_Robo_Tracker
             switch (camNr)
             {
                 case 0:
-                        GlobalVars.theTmpObject1[0] = x-320;
-                        GlobalVars.theTmpObject1[1] = -y+240;
+                    if (x != 0 && y != 0)
+                    {
+                        GlobalVars.theTmpObject1[0] = x - 320;
+                        GlobalVars.theTmpObject1[1] = -y + 240;
+                    }
+                    else
+                    {
+                        GlobalVars.theTmpObject1[0] = 0;
+                        GlobalVars.theTmpObject1[1] = 0;
+                    }
                     break;
 
                 case 1:
-                        GlobalVars.theTmpObject2[0] = x-320;
-                        GlobalVars.theTmpObject2[1] = -y+240;
+                    if (x != 0 && y != 0)
+                    {
+                        GlobalVars.theTmpObject2[0] = x - 320;
+                        GlobalVars.theTmpObject2[1] = -y + 240;
+                    }
+                    else
+                    {
+                        GlobalVars.theTmpObject2[0] = 0;
+                        GlobalVars.theTmpObject2[1] = 0;
+                    }
                     break;
             }
             if (GlobalVars.switchedCams)
