@@ -8,104 +8,104 @@ using System.Threading.Tasks;
 
 namespace Object_Robo_Tracker
 {
-    public class GlobalVars
-    {
-        public static bool switchedCams = false;
+	public class GlobalVars
+	{
+		public static bool switchedCams = false;
 
-        private static int[] theTmpObject1 = new int[2] { 0, 0 };
-        private static int[] theTmpObject2 = new int[2] { 0, 0 };
+		private static int[] theTmpObject1 = new int[2] { 0, 0 };
+		private static int[] theTmpObject2 = new int[2] { 0, 0 };
 
-        public static bool robotRoutine = false;
-        public static bool robotCanMove = false;
+		public static bool robotRoutine = false;
+		public static bool robotCanMove = false;
 
-        public static int[] theFinalObject1 = new int[2] { 0, 0 };
-        public static int[] theFinalObject2 = new int[2] { 0, 0 };
+		public static int[] theFinalObject1 = new int[2] { 0, 0 };
+		public static int[] theFinalObject2 = new int[2] { 0, 0 };
 
-        public static int H_MIN = 0;
-        public static int H_MAX = 256;
-        public static int S_MIN = 0;
-        public static int S_MAX = 256;
-        public static int V_MIN = 0;
-        public static int V_MAX = 256;
+		public static int hMin = 0;
+		public static int hMax = 256;
+		public static int sMin = 0;
+		public static int sMax = 256;
+		public static int vMin = 0;
+		public static int vMax = 256;
 
-        public static int MIN_OBJECT_SIZE = 400;
-        public static int MAX_OBJECT_SIZE = 800;
+		public static int minObjectSize = 400;
+		public static int maxObjectSize = 800;
 
-        public static int SENSITIVITY_VALUE = 20;
-        public static int BLUR_SIZE = 40;
+		public static int sensitivityValue = 20;
+		public static int blurSizeSingle = 40;
 
-        public static Size blurSz = new Size(GlobalVars.BLUR_SIZE, GlobalVars.BLUR_SIZE);
+		public static Size blurSizeScalar = new Size(GlobalVars.blurSizeSingle, GlobalVars.blurSizeSingle);
 
-        public static CvScalar MIN_HSV_Scalar = new CvScalar(H_MIN, S_MIN, V_MIN);
-        public static CvScalar MAX_HSV_Scalar = new CvScalar(H_MAX, S_MAX, V_MAX);
-
-
-        public static CvScalar greenCvDrawColor = new CvScalar(180, 255, 0);
-
-        //public static Rect objectBoundingRectangle = new Rect(0, 0, 0, 0);
+		public static CvScalar minHsvScalar = new CvScalar(hMin, sMin, vMin);
+		public static CvScalar maxHswScalar = new CvScalar(hMax, sMax, vMax);
 
 
-        public static Boolean abort = false;
+		public static CvScalar greenCvDrawColor = new CvScalar(180, 255, 0);
 
-        public static void updateScalar()
-        {
-            MIN_HSV_Scalar.Val0 = H_MIN;
-            MIN_HSV_Scalar.Val1 = S_MIN;
-            MIN_HSV_Scalar.Val2 = V_MIN;
-
-            MAX_HSV_Scalar.Val0 = H_MAX;
-            MAX_HSV_Scalar.Val1 = S_MAX;
-            MAX_HSV_Scalar.Val2 = V_MAX;
-
-            blurSz.Height = BLUR_SIZE;
-            blurSz.Width = BLUR_SIZE;
-
-        }
+		//public static Rect objectBoundingRectangle = new Rect(0, 0, 0, 0);
 
 
-        
-        public static void setGlobalObjects(int camNr, int x, int y)
-        {
-            switch (camNr)
-            {
-                case 0:
-                    if (x != 0 && y != 0)
-                    {
-                        GlobalVars.theTmpObject1[0] = x - 320;
-                        GlobalVars.theTmpObject1[1] = -y + 240;
-                    }
-                    else
-                    {
-                        GlobalVars.theTmpObject1[0] = 0;
-                        GlobalVars.theTmpObject1[1] = 0;
-                    }
-                    break;
+		public static Boolean abort = false;
 
-                case 1:
-                    if (x != 0 && y != 0)
-                    {
-                        GlobalVars.theTmpObject2[0] = x - 320;
-                        GlobalVars.theTmpObject2[1] = -y + 240;
-                    }
-                    else
-                    {
-                        GlobalVars.theTmpObject2[0] = 0;
-                        GlobalVars.theTmpObject2[1] = 0;
-                    }
-                    break;
-            }
-            if (GlobalVars.switchedCams)
-            {
-                GlobalVars.theFinalObject1 = GlobalVars.theTmpObject2;
-                GlobalVars.theFinalObject2 = GlobalVars.theTmpObject1;
-            }
-            else
-            {
-                GlobalVars.theFinalObject1 = GlobalVars.theTmpObject1;
-                GlobalVars.theFinalObject2 = GlobalVars.theTmpObject2;
-            }
-        }
+		public static void updateScalar()
+		{
+			minHsvScalar.Val0 = hMin;
+			minHsvScalar.Val1 = sMin;
+			minHsvScalar.Val2 = vMin;
+
+			maxHswScalar.Val0 = hMax;
+			maxHswScalar.Val1 = sMax;
+			maxHswScalar.Val2 = vMax;
+
+			blurSizeScalar.Height = blurSizeSingle;
+			blurSizeScalar.Width = blurSizeSingle;
+
+		}
 
 
-    }
+
+		public static void setGlobalObjects(int camNr, int x, int y)
+		{
+			switch (camNr)
+			{
+				case 0:
+					if (x != 0 && y != 0)
+					{
+						GlobalVars.theTmpObject1[0] = x - 320;
+						GlobalVars.theTmpObject1[1] = -y + 240;
+					}
+					else
+					{
+						GlobalVars.theTmpObject1[0] = 0;
+						GlobalVars.theTmpObject1[1] = 0;
+					}
+					break;
+
+				case 1:
+					if (x != 0 && y != 0)
+					{
+						GlobalVars.theTmpObject2[0] = x - 320;
+						GlobalVars.theTmpObject2[1] = -y + 240;
+					}
+					else
+					{
+						GlobalVars.theTmpObject2[0] = 0;
+						GlobalVars.theTmpObject2[1] = 0;
+					}
+					break;
+			}
+			if (GlobalVars.switchedCams)
+			{
+				GlobalVars.theFinalObject1 = GlobalVars.theTmpObject2;
+				GlobalVars.theFinalObject2 = GlobalVars.theTmpObject1;
+			}
+			else
+			{
+				GlobalVars.theFinalObject1 = GlobalVars.theTmpObject1;
+				GlobalVars.theFinalObject2 = GlobalVars.theTmpObject2;
+			}
+		}
+
+
+	}
 }
