@@ -19,7 +19,6 @@ namespace Object_Robo_Tracker
 	{
 
 		private Thread _cameraThread1;
-		private Thread _cameraThread2;
 		private Thread _labelUpdateThread;
 		private Thread _robotMovementThread;
 
@@ -27,7 +26,6 @@ namespace Object_Robo_Tracker
 		private RobotServer myRobotServer;
 
 		private int initCam1 = -1;
-		private int initCam2 = -1;
 		private bool initCamChangeBool = false;
 
 		public RoboTrack()
@@ -40,9 +38,6 @@ namespace Object_Robo_Tracker
 		{
 			_cameraThread1 = new Thread(new ThreadStart(captureCameraRoutine1));
 			_cameraThread1.Start();
-			_cameraThread2 = new Thread(new ThreadStart(captureCameraRoutine2));
-			_cameraThread2.Start();
-
 		}
 
 		private void labelUpdater()
@@ -68,13 +63,11 @@ namespace Object_Robo_Tracker
 			captureMe.capture(initCam1, pictureBox1, pictureBox2, pictureBox3, pictureBox7);
 		}
 
-		private void captureCameraRoutine2()
-		{
-			// Start Capture From Camera
-			captureMe.capture(initCam2, pictureBox4, pictureBox5, pictureBox6, pictureBox8);
-		}
-
-
+		//private void captureCameraRoutine2()
+		//{
+		//	// Start Capture From Camera
+		//	captureMe.capture(initCam2, pictureBox4, pictureBox5, pictureBox6, pictureBox8);
+		//}
 
 		public void initCAMLabelsNumbers()
 		{
@@ -105,7 +98,6 @@ namespace Object_Robo_Tracker
 				captureMe.cameraPeek(i, boxes[i]);
 			}
 			initCam1 = -1;
-			initCam2 = -1;
 		}
 
 		public void initComPorts()
@@ -118,10 +110,7 @@ namespace Object_Robo_Tracker
 				comPortDropDownList.Items.Add(s);
 			}
 			AppendTextBox(boxout + comPortDropDownList.SelectedItem);
-
-
 		}
-
 
 
 		#region labels and print stuff
@@ -151,24 +140,6 @@ namespace Object_Robo_Tracker
 					this.cam1LabY.Text = GlobalVars.theFinalObject1[1].ToString(); ;
 				}
 
-
-				if (this.cam2LabX.InvokeRequired)
-				{
-					this.cam2LabX.BeginInvoke((MethodInvoker)delegate () { this.cam2LabX.Text = GlobalVars.theFinalObject2[0].ToString(); ; });
-				}
-				else
-				{
-					this.cam2LabX.Text = GlobalVars.theFinalObject2[0].ToString(); ;
-				}
-
-				if (this.cam2LabY.InvokeRequired)
-				{
-					this.cam2LabY.BeginInvoke((MethodInvoker)delegate () { this.cam2LabY.Text = GlobalVars.theFinalObject2[1].ToString(); ; });
-				}
-				else
-				{
-					this.cam2LabY.Text = GlobalVars.theFinalObject2[1].ToString(); ;
-				}
 			}
 		}
 
@@ -179,7 +150,7 @@ namespace Object_Robo_Tracker
 				camMarkLab1, camMarkLab2, camMarkLab3, camMarkLab4, camMarkLab5, camMarkLab6
 			};
 			PictureBox[] boxes = {
-				pictureBox1, pictureBox2, pictureBox3, pictureBox4, pictureBox5, pictureBox6
+				pictureBox1, pictureBox2, pictureBox3, pictureBox4, pictureBox5, pictureBox6, pictureBox7
 			};
 			foreach (Label label in labels)
 			{
@@ -197,9 +168,6 @@ namespace Object_Robo_Tracker
 			this.cam1_lab.Visible = bool_var;
 			this.cam1LabX.Visible = bool_var;
 			this.cam1LabY.Visible = bool_var;
-			this.cam2_lab.Visible = bool_var;
-			this.cam2LabX.Visible = bool_var;
-			this.cam2LabY.Visible = bool_var;
 			this.trackBarLabel1.Visible = bool_var;
 			this.trackBarLabel2.Visible = bool_var;
 			this.trackBarLabel3.Visible = bool_var;
@@ -249,28 +217,38 @@ namespace Object_Robo_Tracker
 			switch (btnText)
 			{
 				case "Start":
-
+					AppendTextBox("Program Started");
 					initCamsPeek();
 					initComPorts();
 					visibleAllStuff(true);
 					initCamChangeBool = true;
 
-					if (pictureBox1.BackColor != System.Drawing.Color.Tomato && pictureBox2.BackColor != System.Drawing.Color.Tomato)
+					if (pictureBox1.BackColor != System.Drawing.Color.Tomato)
 					{
-						btnStart.Text = "Start CAMS";
+						btnStart.Text = "Start CAM";
 
 					}
 					else
 					{
-						AppendTextBox("pla Connect all  CAMs \n");
+						AppendTextBox("please connect at least one camera\n");
 					}
 					break;
 
-				case "Start CAMS":
-					if (initCam1 != -1 && initCam2 != -1)
+				case "Start CAM":
+					//if (initCam1 != -1 && initCam2 != -1)
+					if (initCam1 != -1)
 					{
+						PictureBox[] box456 = {
+							pictureBox4, pictureBox5, pictureBox6
+						};
+						foreach (PictureBox box in box456)
+						{
+							box.Visible = false;
+						}
+
 						initCamChangeBool = false;
 						visibleAllCamLabels(false);
+
 
 						captureCamera();
 
@@ -280,11 +258,11 @@ namespace Object_Robo_Tracker
 
 						btnStart.Text = "Start Robot";
 
-						AppendTextBox("CAMS Started");
+						AppendTextBox("CAM Started");
 					}
 					else
 					{
-						AppendTextBox("Can not start Tracking\nPls select 2 cams");
+						AppendTextBox("Can not start tracking\nPlease select one camera");
 					}
 					break;
 				case "Start Robot":
@@ -301,15 +279,19 @@ namespace Object_Robo_Tracker
 					}
 					else
 					{
-						AppendTextBox("Can not start Robot\nPls select COM port");
+						AppendTextBox("Can not start robot\nPls select COM port");
 					}
 					break;
 				case "Stop":
 					GlobalVars.abort = true;
 					GlobalVars.robotRoutine = false;
+					GlobalVars.robotCanMove = false;
 					visibleAllStuff(false);
 					this.trackBtn1.Visible = false;
+
+
 					AppendTextBox("Program Stopped");
+					comPortDropDownList.Items.Clear();
 
 
 					foreach (PictureBox box in boxes)
@@ -318,7 +300,6 @@ namespace Object_Robo_Tracker
 					}
 
 					_cameraThread1.Join();
-					_cameraThread2.Join();
 					_labelUpdateThread.Join();
 					if (_robotMovementThread != null)
 					{
@@ -356,40 +337,42 @@ namespace Object_Robo_Tracker
 		{
 			if (initCamChangeBool == true)
 			{
-				if (initCam2 == nr)
+				//if (initCam2 == nr)
+				//{
+				//	initCam2 = -1;
+				//	lab.Text = "";
+				//}
+				//else
+				//{
+				if (initCam1 == nr)
 				{
-					initCam2 = -1;
+					initCam1 = -1;
 					lab.Text = "";
 				}
 				else
 				{
-					if (initCam1 == nr)
+					if (initCam1 == -1)
 					{
-						initCam1 = -1;
-						lab.Text = "";
+						initCam1 = nr;
+						lab.Text = "CAM1";
 					}
-					else
-					{
-						if (initCam1 == -1)
-						{
-							initCam1 = nr;
-							lab.Text = "CAM1";
-						}
-						else
-						{
-							if (initCam2 == -1)
-							{
-								initCam2 = nr;
-								lab.Text = "CAM2";
-							}
-						}
-					}
+					//else
+					//{
+					//	if (initCam2 == -1)
+					//	{
+					//		initCam2 = nr;
+					//		lab.Text = "CAM2";
+					//	}
+					//}
 				}
-				if (initCam1 != -1 && initCam2 != -1 && initCam1 > initCam2)
-				{
-					GlobalVars.switchedCams = true;
-				};
-				AppendTextBox("CAM1 = " + initCam1 + "\nCAM2 = " + initCam2 + "\n");
+				//}
+				//if (initCam1 != -1 && initCam2 != -1 && initCam1 > initCam2)
+				//if (initCam1 != -1)
+				//{
+				//	GlobalVars.switchedCams = true;
+				//};
+				//AppendTextBox("CAM1 = " + initCam1 + "\nCAM2 = " + initCam2 + "\n");
+				AppendTextBox("Selected camera at port: " + initCam1 + "\n");
 			}
 		}
 
@@ -463,11 +446,13 @@ namespace Object_Robo_Tracker
 			{
 				this.trackBtn1.BackColor = Color.LightGreen;
 				GlobalVars.robotCanMove = true;
+				AppendTextBox("Robot now will move");
 			}
 			else
 			{
 				this.trackBtn1.BackColor = Color.MistyRose;
 				GlobalVars.robotCanMove = false;
+				AppendTextBox("Robot now will stop");
 			}
 		}
 
@@ -487,10 +472,6 @@ namespace Object_Robo_Tracker
 			if (_cameraThread1 != null)
 			{
 				_cameraThread1.Join();
-			}
-			if (_cameraThread2 != null)
-			{
-				_cameraThread2.Join();
 			}
 			if (_labelUpdateThread != null)
 			{
@@ -525,5 +506,6 @@ namespace Object_Robo_Tracker
 				myRobotServer.resetError();
 			}
 		}
+
 	}
 }

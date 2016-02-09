@@ -13,7 +13,6 @@ namespace Object_Robo_Tracker
 	{
 		public void searchForMovement(Mat thresholdImage, Mat cameraFeed, Mat boundImage, int nr, TheObject myObject, Mat miniPicture)
 		{
-			bool objectDetected = false;
 			int centerX = 0, centerY = 0;
 
 			// for detection
@@ -27,78 +26,76 @@ namespace Object_Robo_Tracker
 			Mat resulted = new Mat();
 			miniPicture.CopyTo(resulted);
 
-			//Start
+			//find contours in our image
 			MatOfPoint[] contours = Cv2.FindContoursAsMat(tempImage, ContourRetrieval.External, ContourChain.ApproxNone);
 			//if contours vector is not empty, we have found some objects
-			if (contours.Length > 0 && contours.Length < 3) objectDetected = true;
-			else
+			//if robot doesnt move track my next object
+			if (GlobalVars.trackingRobot == false)
 			{
-				objectDetected = false;
-
-				// keep track of the object if we dont have a 85% match the object does not move anymore or is gone
-				try
+				if (contours.Length > 0 && contours.Length < 3)
 				{
-					resulted = cameraFeed.MatchTemplate(miniPicture, MatchTemplateMethod.CCoeffNormed);
-					resulted.MinMaxLoc(out minVal, out maxVal, out minLoc, out maxLoc);
 
-					if (maxLoc.X != 0 && maxVal > 0.85)
+					// we have he a line of point p1, p2, pN... and then find that center
+					foreach (MatOfPoint contour in contours)
 					{
-						myObject.setTheObject(maxLoc.X + 40, maxLoc.Y + 30);
-					}
-					else
-					{
-						myObject.setTheObject(0, 0);
-					}
-				}
-				catch { }
+						// reset centers
+						centerX = 0;
+						centerY = 0;
 
-			}
-
-			if (objectDetected)
-			{
-				// we have he a line of point p1, p2, pN... and then find that center
-				foreach (MatOfPoint contour in contours)
-				{
-					// reset centers
-					centerX = 0;
-					centerY = 0;
-
-					if (contour.Count > GlobalVars.minObjectSize && contour.Count < GlobalVars.maxObjectSize)
-					{
-						// for each point in the contour ... contour count give you the hight x witdh
-						for (int ii = 0; ii < contour.Count; ii++)
+						if (contour.Count > GlobalVars.minObjectSize && contour.Count < GlobalVars.maxObjectSize)
 						{
-							// get point
-							Point pts = contour.At<Point>(ii);
-							Cv2.Circle(boundImage, pts, 1, GlobalVars.greenCvDrawColor);
+							// for each point in the contour ... contour count give you the hight x witdh
+							for (int ii = 0; ii < contour.Count; ii++)
+							{
+								// get point
+								Point pts = contour.At<Point>(ii);
+								Cv2.Circle(boundImage, pts, 1, GlobalVars.greenCvDrawColor);
 
-							// set X Y
-							centerX += pts.X;
-							centerY += pts.Y;
+								// set X Y
+								centerX += pts.X;
+								centerY += pts.Y;
+							}
+
+							// set center
+							centerX /= contour.Count;
+							centerY /= contour.Count;
+
+							// add center
+							myObject.setTheObject(centerX, centerY);
+
+							// for compare when to much noise
+							IplImage detectedObjecPicture = cameraFeed.ToIplImage();
+							CvRect roiRect = new CvRect(myObject.getTheObjectX() - 40, myObject.getTheObjectY() - 30, 80, 60);
+							// Refion of Interest when the Object is big we want keep te last track
+							Cv.SetImageROI(detectedObjecPicture, roiRect);
+							Mat regionOfInterestiImage = new Mat(detectedObjecPicture);
+
+							regionOfInterestiImage.CopyTo(miniPicture);
+
 						}
-
-						// set center
-						centerX /= contour.Count;
-						centerY /= contour.Count;
-
-						// add center
-						myObject.setTheObject(centerX, centerY);
-
-						// for compare when to much noise
-						IplImage detectedObjecPicture = cameraFeed.ToIplImage();
-						CvRect roiRect = new CvRect(myObject.getTheObjectX() - 40, myObject.getTheObjectY() - 30, 80, 60);
-						// Refion of Interest when the Object is big we want keep te last track
-						Cv.SetImageROI(detectedObjecPicture, roiRect);
-						Mat regionOfInterestiImage = new Mat(detectedObjecPicture);
-
-						regionOfInterestiImage.CopyTo(miniPicture);
-
 					}
-
 				}
+				else
+				{
+					// keep track of the object if we dont have a 80% match the object the doesn´t exist anymore
+					try
+					{
+						resulted = cameraFeed.MatchTemplate(miniPicture, MatchTemplateMethod.CCoeffNormed);
+						resulted.MinMaxLoc(out minVal, out maxVal, out minLoc, out maxLoc);
 
+						if (maxLoc.X != 0 && maxVal > 0.80)
+						{
+							myObject.setTheObject(maxLoc.X + 40, maxLoc.Y + 30);
+						}
+						else
+						{
+							myObject.setTheObject(0, 0);
+						}
+					}
+					// the object doesn´t exist anymore
+					catch { }
+				}
 			}
-
 		}
 
 

@@ -11,6 +11,9 @@ namespace Object_Robo_Tracker
 	class RobotServer
 	{
 		SerialPort myComPort;
+		int bodyLeftRight = -6000;
+		int bodyUpDown = -1800;
+
 
 		public RobotServer(string comPort)
 		{
@@ -18,8 +21,8 @@ namespace Object_Robo_Tracker
 
 			try
 			{
-				myComPort = new SerialPort(comPort, 9600, Parity.Even, 8, StopBits.One);
-				myComPort.RtsEnable = true;
+myComPort = new SerialPort(comPort, 9600, Parity.Even, 8, StopBits.One);
+myComPort.RtsEnable = true;
 			}
 			catch (Exception e)
 			{
@@ -43,11 +46,15 @@ namespace Object_Robo_Tracker
 		{
 			while (GlobalVars.robotRoutine)
 			{
+				setSpeed(9);
+				Thread.Sleep(1000);
 				while (GlobalVars.robotCanMove)
 				{
 					Thread.Sleep(1000);
-
-					moveBody(GlobalVars.theFinalObject1[0]);
+					GlobalVars.trackingRobot = true;
+					moveBody(GlobalVars.theFinalObject1[0], GlobalVars.theFinalObject1[1]);
+					Thread.Sleep(1000);
+					GlobalVars.trackingRobot = false;
 
 				}
 			}
@@ -56,6 +63,10 @@ namespace Object_Robo_Tracker
 		// Returns Robot to Nest Position
 		public void moveNest()
 		{
+			bodyLeftRight = -6000;
+			bodyUpDown = -1800;
+			Console.WriteLine("a: " + bodyLeftRight + " b: " + bodyUpDown);
+
 			try
 			{
 				if (!myComPort.IsOpen)
@@ -79,6 +90,10 @@ namespace Object_Robo_Tracker
 		// Initallize the Normal Position
 		public void moveHome()
 		{
+			bodyLeftRight = 0;
+			bodyUpDown = 0;
+			Console.WriteLine("a: " + bodyLeftRight + " b: " + bodyUpDown);
+
 			try
 			{
 				if (!myComPort.IsOpen)
@@ -119,9 +134,7 @@ namespace Object_Robo_Tracker
 			}
 		}
 
-
-		// Move the Body Left and Right
-		public void moveBody(int a)
+		public void setSpeed(int a)
 		{
 			try
 			{
@@ -131,12 +144,46 @@ namespace Object_Robo_Tracker
 				}
 				if (myComPort.IsOpen)
 				{
-					if (!myComPort.CtsHolding && myComPort.DsrHolding)
-					{
-						myComPort.WriteLine("MI" + a + ",-0,-0,-0,-0,-0");
-					}
+					myComPort.Write("SP " + a + "\n");
 					myComPort.Close();
 				}
+			}
+			catch (Exception)
+			{
+				Console.WriteLine("speed failed");
+			}
+		}
+
+
+		// Move the Body Left and Right
+		public void moveBody(int a, int b)
+		{
+			Console.WriteLine("a: " + bodyLeftRight + " b: " + bodyUpDown);
+
+			try
+			{
+				if (!myComPort.IsOpen)
+				{
+					myComPort.Open();
+				}
+if (myComPort.IsOpen)
+{
+	if (!myComPort.CtsHolding && myComPort.DsrHolding)
+	{
+		if (bodyLeftRight >= -5900 && bodyLeftRight <= 5900)
+		{
+			if (bodyUpDown >= 1700 || bodyUpDown <= -1700)
+			{
+				b = 0;
+			}
+			myComPort.WriteLine("MI" + a + "," + b + "," + b + ",-0,-0,-0");
+			bodyLeftRight += a;
+			bodyUpDown += b;
+		}
+
+	}
+	myComPort.Close();
+}
 			}
 			catch (Exception)
 			{

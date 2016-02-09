@@ -17,6 +17,7 @@ namespace Object_Robo_Tracker
 
 		public static bool robotRoutine = false;
 		public static bool robotCanMove = false;
+		public static bool trackingRobot = false;
 
 		public static int[] theFinalObject1 = new int[2] { 0, 0 };
 		public static int[] theFinalObject2 = new int[2] { 0, 0 };

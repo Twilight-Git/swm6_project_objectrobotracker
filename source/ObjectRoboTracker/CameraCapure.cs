@@ -108,11 +108,13 @@ namespace Object_Robo_Tracker
 			box1.Image = null;
 			box2.Image = null;
 			box3.Image = null;
+			box4.Image = null;
 			GlobalVars.abort = true;
 			stream.Dispose();
 			toBm1 = null;
 			toBm2 = null;
 			toBm3 = null;
+			toBm4 = null;
 
 		}
 
