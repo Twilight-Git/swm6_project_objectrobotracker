@@ -29,6 +29,7 @@ namespace Object_Robo_Tracker
 			this.x = xx;
 			this.y = yy;
 
+
 			// Set here the Globals for Labeldrawing
 			GlobalVars.setGlobalObjects(this.camNr, this.x, this.y);
 		}

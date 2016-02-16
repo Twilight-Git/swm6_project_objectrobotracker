@@ -21,8 +21,8 @@ namespace Object_Robo_Tracker
 
 			try
 			{
-myComPort = new SerialPort(comPort, 9600, Parity.Even, 8, StopBits.One);
-myComPort.RtsEnable = true;
+				myComPort = new SerialPort(comPort, 9600, Parity.Even, 8, StopBits.One);
+				myComPort.RtsEnable = true;
 			}
 			catch (Exception e)
 			{
@@ -166,24 +166,25 @@ myComPort.RtsEnable = true;
 				{
 					myComPort.Open();
 				}
-if (myComPort.IsOpen)
-{
-	if (!myComPort.CtsHolding && myComPort.DsrHolding)
-	{
-		if (bodyLeftRight >= -5900 && bodyLeftRight <= 5900)
-		{
-			if (bodyUpDown >= 1700 || bodyUpDown <= -1700)
-			{
-				b = 0;
-			}
-			myComPort.WriteLine("MI" + a + "," + b + "," + b + ",-0,-0,-0");
-			bodyLeftRight += a;
-			bodyUpDown += b;
-		}
+				if (myComPort.IsOpen)
+				{
+					if (!myComPort.CtsHolding && myComPort.DsrHolding)
+					{
+						if (bodyLeftRight >= -5900 && bodyLeftRight <= 5900)
+						{
+							if (bodyUpDown >= 1700 || bodyUpDown <= -1700)
+							{
+								b = 0;
+							}
 
-	}
-	myComPort.Close();
-}
+							myComPort.WriteLine("MI" + a + "," + b + "," + b + ",-0,-0,-0");
+							bodyLeftRight += a;
+							bodyUpDown += b;
+						}
+
+					}
+					myComPort.Close();
+				}
 			}
 			catch (Exception)
 			{

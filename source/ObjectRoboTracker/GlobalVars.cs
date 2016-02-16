@@ -13,14 +13,13 @@ namespace Object_Robo_Tracker
 		public static bool switchedCams = false;
 
 		private static int[] theTmpObject1 = new int[2] { 0, 0 };
-		private static int[] theTmpObject2 = new int[2] { 0, 0 };
 
 		public static bool robotRoutine = false;
 		public static bool robotCanMove = false;
 		public static bool trackingRobot = false;
 
 		public static int[] theFinalObject1 = new int[2] { 0, 0 };
-		public static int[] theFinalObject2 = new int[2] { 0, 0 };
+
 
 		public static int hMin = 0;
 		public static int hMax = 256;
@@ -34,6 +33,9 @@ namespace Object_Robo_Tracker
 
 		public static int sensitivityValue = 20;
 		public static int blurSizeSingle = 40;
+
+		public static int camHeight;
+		public static int camWidth;
 
 		public static Size blurSizeScalar = new Size(GlobalVars.blurSizeSingle, GlobalVars.blurSizeSingle);
 
@@ -67,44 +69,19 @@ namespace Object_Robo_Tracker
 
 		public static void setGlobalObjects(int camNr, int x, int y)
 		{
-			switch (camNr)
+			if (x != 0 && y != 0)
 			{
-				case 0:
-					if (x != 0 && y != 0)
-					{
-						GlobalVars.theTmpObject1[0] = x - 320;
-						GlobalVars.theTmpObject1[1] = -y + 240;
-					}
-					else
-					{
-						GlobalVars.theTmpObject1[0] = 0;
-						GlobalVars.theTmpObject1[1] = 0;
-					}
-					break;
-
-				case 1:
-					if (x != 0 && y != 0)
-					{
-						GlobalVars.theTmpObject2[0] = x - 320;
-						GlobalVars.theTmpObject2[1] = -y + 240;
-					}
-					else
-					{
-						GlobalVars.theTmpObject2[0] = 0;
-						GlobalVars.theTmpObject2[1] = 0;
-					}
-					break;
-			}
-			if (GlobalVars.switchedCams)
-			{
-				GlobalVars.theFinalObject1 = GlobalVars.theTmpObject2;
-				GlobalVars.theFinalObject2 = GlobalVars.theTmpObject1;
+				GlobalVars.theTmpObject1[0] = x - camWidth / 2;
+				GlobalVars.theTmpObject1[1] = -y + camHeight / 2;
 			}
 			else
 			{
-				GlobalVars.theFinalObject1 = GlobalVars.theTmpObject1;
-				GlobalVars.theFinalObject2 = GlobalVars.theTmpObject2;
+				GlobalVars.theTmpObject1[0] = 0;
+				GlobalVars.theTmpObject1[1] = 0;
 			}
+
+			GlobalVars.theFinalObject1 = GlobalVars.theTmpObject1;
+
 		}
 
 

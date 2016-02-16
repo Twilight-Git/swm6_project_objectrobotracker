@@ -121,6 +121,7 @@ namespace Object_Robo_Tracker
 			while (GlobalVars.abort == false)
 			{
 				Thread.Sleep(100);
+				
 
 				if (this.cam1LabX.InvokeRequired)
 				{

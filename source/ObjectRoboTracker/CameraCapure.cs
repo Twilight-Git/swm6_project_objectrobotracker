@@ -33,6 +33,9 @@ namespace Object_Robo_Tracker
 			//Mat toBm4 = new Mat(80,60,MatType.CV_8U,3);
 
 			VideoCapture stream = VideoCapture.FromCamera(cam);
+			GlobalVars.camHeight = stream.FrameHeight;
+			GlobalVars.camWidth = stream.FrameWidth;
+
 			OpenCvSharp.CPlusPlus.Size sz = new OpenCvSharp.CPlusPlus.Size(160, 120);
 			Mat toBm4 = new Mat();
 
@@ -125,6 +128,8 @@ namespace Object_Robo_Tracker
 			Mat toBm2 = new Mat();
 			OpenCvSharp.CPlusPlus.Size sz = new OpenCvSharp.CPlusPlus.Size(160, 120);
 			VideoCapture stream = new VideoCapture();
+
+			
 
 			try
 			{
