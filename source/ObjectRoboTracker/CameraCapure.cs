@@ -14,7 +14,7 @@ namespace Object_Robo_Tracker
 	class CameraCapure
 	{
 
-		public void capture(int cam, PictureBox box1, PictureBox box2, PictureBox box3, PictureBox box4)
+		public void Capture(int cam, PictureBox box1, PictureBox box2, PictureBox box3, PictureBox box4)
 		{
 			TrackFilteredObject TrackMyMove = new TrackFilteredObject();
 			TheObject myObject = new TheObject(cam);
@@ -70,8 +70,8 @@ namespace Object_Robo_Tracker
 					//threshold again to obtain binary image from blur output
 					Cv2.Threshold(thresholdImage, thresholdImage, GlobalVars.sensitivityValue, 255, ThresholdType.Binary);
 
-					TrackMyMove.searchForMovement(thresholdImage, cameraFrame1, boundImage, cam, myObject, toBm4);
-					TrackMyMove.drawMyObejct(cameraFrame1, myObject);
+					TrackMyMove.SearchForMovement(thresholdImage, cameraFrame1, boundImage, cam, myObject, toBm4);
+					TrackMyMove.DrawMyObejct(cameraFrame1, myObject);
 
 
 					Cv2.Resize(cameraFrame1, toBm1, sz);
@@ -121,7 +121,7 @@ namespace Object_Robo_Tracker
 
 		}
 
-		public void cameraPeek(int cam, PictureBox box)
+		public void CameraPeek(int cam, PictureBox box)
 		{
 			Mat cameraFrame = new Mat();
 			Mat toBm = new Mat();

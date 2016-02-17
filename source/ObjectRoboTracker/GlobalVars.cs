@@ -10,8 +10,6 @@ namespace Object_Robo_Tracker
 {
 	public class GlobalVars
 	{
-		public static bool switchedCams = false;
-
 		private static int[] theTmpObject1 = new int[2] { 0, 0 };
 
 		public static bool robotRoutine = false;
@@ -50,7 +48,7 @@ namespace Object_Robo_Tracker
 
 		public static Boolean abort = false;
 
-		public static void updateScalar()
+		public static void UpdateScalar()
 		{
 			minHsvScalar.Val0 = hMin;
 			minHsvScalar.Val1 = sMin;
@@ -67,7 +65,7 @@ namespace Object_Robo_Tracker
 
 
 
-		public static void setGlobalObjects(int camNr, int x, int y)
+		public static void SetGlobalObjects(int camNr, int x, int y)
 		{
 			if (x != 0 && y != 0)
 			{

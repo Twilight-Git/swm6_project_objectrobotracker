@@ -51,7 +51,7 @@ namespace Object_Robo_Tracker
 			GlobalVars.robotRoutine = true;
 			String selectedComPort = comPortDropDownList.SelectedItem.ToString();
 			myRobotServer = new RobotServer(selectedComPort);
-			_robotMovementThread = new Thread(new ThreadStart(myRobotServer.movementRoutine));
+			_robotMovementThread = new Thread(new ThreadStart(myRobotServer.MovementRoutine));
 			_robotMovementThread.Start();
 
 
@@ -60,7 +60,7 @@ namespace Object_Robo_Tracker
 		private void captureCameraRoutine1()
 		{
 			// Start Capture From Camera
-			captureMe.capture(initCam1, pictureBox1, pictureBox2, pictureBox3, pictureBox7);
+			captureMe.Capture(initCam1, pictureBox1, pictureBox2, pictureBox3, pictureBox7);
 		}
 
 		//private void captureCameraRoutine2()
@@ -95,7 +95,7 @@ namespace Object_Robo_Tracker
 			};
 			for (int i = 0; i <= 5; i++)
 			{
-				captureMe.cameraPeek(i, boxes[i]);
+				captureMe.CameraPeek(i, boxes[i]);
 			}
 			initCam1 = -1;
 		}
@@ -104,7 +104,7 @@ namespace Object_Robo_Tracker
 		{
 			String boxout = "";
 
-			foreach (String s in RobotServer.checkComPorts(10))
+			foreach (String s in RobotServer.CheckComPorts(10))
 			{
 				boxout += s + "\n";
 				comPortDropDownList.Items.Add(s);
@@ -317,19 +317,19 @@ namespace Object_Robo_Tracker
 		private void trackBar1_Scroll(object sender, EventArgs e)
 		{
 			GlobalVars.sensitivityValue = trackBar1.Value;
-			GlobalVars.updateScalar();
+			GlobalVars.UpdateScalar();
 		}
 
 		private void trackBar2_Scroll(object sender, EventArgs e)
 		{
 			GlobalVars.blurSizeSingle = trackBar2.Value;
-			GlobalVars.updateScalar();
+			GlobalVars.UpdateScalar();
 		}
 
 		private void trackBar3_Scroll(object sender, EventArgs e)
 		{
 			GlobalVars.minObjectSize = trackBar3.Value;
-			GlobalVars.updateScalar();
+			GlobalVars.UpdateScalar();
 		}
 		#endregion
 
@@ -488,7 +488,7 @@ namespace Object_Robo_Tracker
 		{
 			if (myRobotServer != null)
 			{
-				myRobotServer.moveHome();
+				myRobotServer.MoveHome();
 			}
 		}
 
@@ -496,7 +496,7 @@ namespace Object_Robo_Tracker
 		{
 			if (myRobotServer != null)
 			{
-				myRobotServer.moveNest();
+				myRobotServer.MoveNest();
 			}
 		}
 
@@ -504,7 +504,7 @@ namespace Object_Robo_Tracker
 		{
 			if (myRobotServer != null)
 			{
-				myRobotServer.resetError();
+				myRobotServer.ResetError();
 			}
 		}
 

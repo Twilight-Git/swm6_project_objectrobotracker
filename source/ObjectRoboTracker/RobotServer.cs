@@ -30,7 +30,7 @@ namespace Object_Robo_Tracker
 			}
 		}
 
-		public static string[] checkComPorts(int ports)
+		public static string[] CheckComPorts(int ports)
 		{
 			String[] comPorts = new String[] { };
 
@@ -42,17 +42,17 @@ namespace Object_Robo_Tracker
 		//
 		// This is the main Routine for the Robot
 		//
-		public void movementRoutine()
+		public void MovementRoutine()
 		{
 			while (GlobalVars.robotRoutine)
 			{
-				setSpeed(9);
+				SetSpeed(9);
 				Thread.Sleep(1000);
 				while (GlobalVars.robotCanMove)
 				{
 					Thread.Sleep(1000);
 					GlobalVars.trackingRobot = true;
-					moveBody(GlobalVars.theFinalObject1[0], GlobalVars.theFinalObject1[1]);
+					MoveBody(GlobalVars.theFinalObject1[0], GlobalVars.theFinalObject1[1]);
 					Thread.Sleep(1000);
 					GlobalVars.trackingRobot = false;
 
@@ -61,7 +61,7 @@ namespace Object_Robo_Tracker
 		}
 
 		// Returns Robot to Nest Position
-		public void moveNest()
+		public void MoveNest()
 		{
 			bodyLeftRight = -6000;
 			bodyUpDown = -1800;
@@ -88,7 +88,7 @@ namespace Object_Robo_Tracker
 
 
 		// Initallize the Normal Position
-		public void moveHome()
+		public void MoveHome()
 		{
 			bodyLeftRight = 0;
 			bodyUpDown = 0;
@@ -114,7 +114,7 @@ namespace Object_Robo_Tracker
 		}
 
 		// Resets the Robot error flag
-		public void resetError()
+		public void ResetError()
 		{
 			try
 			{
@@ -134,7 +134,7 @@ namespace Object_Robo_Tracker
 			}
 		}
 
-		public void setSpeed(int a)
+		public void SetSpeed(int a)
 		{
 			try
 			{
@@ -156,7 +156,7 @@ namespace Object_Robo_Tracker
 
 
 		// Move the Body Left and Right
-		public void moveBody(int a, int b)
+		public void MoveBody(int a, int b)
 		{
 			Console.WriteLine("a: " + bodyLeftRight + " b: " + bodyUpDown);
 

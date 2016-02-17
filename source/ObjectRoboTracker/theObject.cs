@@ -24,22 +24,22 @@ namespace Object_Robo_Tracker
 			y = 0;
 		}
 
-		public void setTheObject(int xx, int yy)
+		public void SetTheObject(int xx, int yy)
 		{
 			this.x = xx;
 			this.y = yy;
 
 
 			// Set here the Globals for Labeldrawing
-			GlobalVars.setGlobalObjects(this.camNr, this.x, this.y);
+			GlobalVars.SetGlobalObjects(this.camNr, this.x, this.y);
 		}
 
-		public int getTheObjectX()
+		public int GetTheObjectX()
 		{
 			return this.x;
 		}
 
-		public int getTheObjectY()
+		public int GetTheObjectY()
 		{
 			return this.y;
 		}

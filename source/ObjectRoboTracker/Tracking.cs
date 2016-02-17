@@ -11,7 +11,7 @@ namespace Object_Robo_Tracker
 {
 	class TrackFilteredObject
 	{
-		public void searchForMovement(Mat thresholdImage, Mat cameraFeed, Mat boundImage, int nr, TheObject myObject, Mat miniPicture)
+		public void SearchForMovement(Mat thresholdImage, Mat cameraFeed, Mat boundImage, int nr, TheObject myObject, Mat miniPicture)
 		{
 			int centerX = 0, centerY = 0;
 
@@ -61,11 +61,11 @@ namespace Object_Robo_Tracker
 							centerY /= contour.Count;
 
 							// add center
-							myObject.setTheObject(centerX, centerY);
+							myObject.SetTheObject(centerX, centerY);
 
 							// for compare when to much noise
 							IplImage detectedObjecPicture = cameraFeed.ToIplImage();
-							CvRect roiRect = new CvRect(myObject.getTheObjectX() - 40, myObject.getTheObjectY() - 30, 80, 60);
+							CvRect roiRect = new CvRect(myObject.GetTheObjectX() - 40, myObject.GetTheObjectY() - 30, 80, 60);
 							// Refion of Interest when the Object is big we want keep te last track
 							Cv.SetImageROI(detectedObjecPicture, roiRect);
 							Mat regionOfInterestiImage = new Mat(detectedObjecPicture);
@@ -85,11 +85,11 @@ namespace Object_Robo_Tracker
 
 						if (maxLoc.X != 0 && maxVal > 0.80)
 						{
-							myObject.setTheObject(maxLoc.X + 40, maxLoc.Y + 30);
+							myObject.SetTheObject(maxLoc.X + 40, maxLoc.Y + 30);
 						}
 						else
 						{
-							myObject.setTheObject(0, 0);
+							myObject.SetTheObject(0, 0);
 						}
 					}
 					// the object doesn´t exist anymore
@@ -99,11 +99,11 @@ namespace Object_Robo_Tracker
 		}
 
 
-		public void drawMyObejct(Mat cameraFeed, TheObject myObject)
+		public void DrawMyObejct(Mat cameraFeed, TheObject myObject)
 		{
 			int x = 0, y = 0;
-			x = myObject.getTheObjectX();
-			y = myObject.getTheObjectY();
+			x = myObject.GetTheObjectX();
+			y = myObject.GetTheObjectY();
 			//draw some circle around the object
 			CvPoint drawPoint = new CvPoint(x - 10, y - 10);
 			Cv2.Circle(cameraFeed, drawPoint, 20, GlobalVars.greenCvDrawColor, 20);
